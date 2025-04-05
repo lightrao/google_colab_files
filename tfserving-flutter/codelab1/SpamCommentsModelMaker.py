@@ -35,9 +35,9 @@ data_file = tf.keras.utils.get_file(
 # Average Word Vec is kinda like transfer learning where there are pre-trained word weights
 # and dictionaries
 spec = model_spec.get("average_word_vec")
-spec.num_words = 2000
-spec.seq_len = 20
-spec.wordvec_dim = 7
+spec.num_words = 2000 # The number of words to use in the vocabulary
+spec.seq_len = 20 # The length of the input sequences
+spec.wordvec_dim = 7 # The number of dimensions for the word vectors
 
 # %%
 # Load the CSV using DataLoader.from_csv to make the training_data
@@ -48,13 +48,14 @@ data = DataLoader.from_csv(
     model_spec=spec,
     delimiter=",",
     shuffle=True,
-    is_training=True,
+    is_training=True, # Set to False if you want to use the data for validation or testing
 )
 
 train_data, test_data = data.split(0.9)
 
 # %%
 # Build the model
+# The model is built using the model_spec and the training data
 model = text_classifier.create(
     train_data, model_spec=spec, epochs=50, validation_data=test_data
 )
